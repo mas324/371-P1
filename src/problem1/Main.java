@@ -1,6 +1,10 @@
 package problem1;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Main {
@@ -27,16 +31,41 @@ public class Main {
 		System.out.println(Arrays.toString(productSet.getSet()) + " " + productSet.size());
 		System.out.println(Arrays.toString(powerSet.getSet()) + " " + powerSet.size());
 
-		FileReader readin;
 		try {
+			FileReader readin;
 			if (args.length > 0)
 				readin = new FileReader(args[1]);
 			else {
 				System.out.printf("Input language file: ");
-
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				readin = new FileReader(in.readLine());
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+
+			boolean swap = false;
+			String langPart = "";
+			while (readin.ready()) {
+				int c = readin.read();
+				if (c == ',' || c == ' ') {
+					if (swap)
+						langBSet.add(langPart);
+					else
+						langASet.add(langPart);
+					continue;
+				}
+				if (c == '}') {
+					swap = true;
+					continue;
+				}
+
+				langPart = String.format("%s%s", c, readin.read());
+			}
+
+		} catch (FileNotFoundException e) {
+			System.err.println("File does not exist");
+			System.exit(1);
+		} catch (IOException e) {
+			System.err.println("Error in system IO");
+			System.exit(1);
 		}
 	}
 }

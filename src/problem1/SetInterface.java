@@ -6,7 +6,6 @@ public interface SetInterface {
 	 * Adds a {@code String} to the current language set
 	 * 
 	 * @param lang the language to be added
-	 * 
 	 */
 	public void add(String lang);
 	// Adds the input to an array

@@ -15,8 +15,19 @@ public class CSet implements SetInterface {
 		set = new String[1];
 	}
 
+	/**
+	 * @throws Will not notify the user of a duplicate entry, nor will the entry
+	 *              appear
+	 */
 	@Override
 	public void add(String lang) {
+		for (String s : getSet()) {
+			if (s == null)
+				continue;
+			else if (s.equals(lang))
+				return;
+		}
+
 		if (set.length == count) {
 			set = Arrays.copyOf(set, count + 1);
 		}
@@ -32,21 +43,11 @@ public class CSet implements SetInterface {
 	public CSet union(CSet setB) {
 		CSet unionSet = new CSet();
 
-		for (String string : getSet()) {
-			unionSet.add(string);
-		}
+		for (String a : getSet())
+			unionSet.add(a);
 
-		for (String b : setB.getSet()) {
-			boolean present = false;
-			for (String a : getSet()) {
-				if (present = b.equals(a))
-					break;
-			}
-			if (present)
-				continue;
-			else
-				unionSet.add(b);
-		}
+		for (String b : setB.getSet())
+			unionSet.add(b);
 
 		return unionSet;
 	}
