@@ -106,7 +106,18 @@ public class CSet implements SetInterface {
 		return count == 0;
 	}
 
-	public String[] getSet() {
+	private String[] getSet() {
 		return set;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder out = new StringBuilder("{");
+		for (String string : set) {
+			out.append(String.format("%s,", string));
+		}
+		out.deleteCharAt(out.lastIndexOf(","));
+		out.replace(out.length(), out.length(), "}");
+		return out.toString();
 	}
 }

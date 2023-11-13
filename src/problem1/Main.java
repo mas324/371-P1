@@ -5,60 +5,48 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Read in input data
-		// TODO Call methods
 
-		CSet langASet = new CSet();
-		CSet langBSet = new CSet();
-
-		langASet.add("am");
-		langASet.add("by");
-
-		langBSet.add("by");
-		langBSet.add("da");
-		langBSet.add("go");
-
-		CSet unionSet = langASet.union(langBSet);
-		CSet productSet = langASet.product(langBSet);
-		CSet powerSet = langASet.power(3);
-
-		System.out.println(Arrays.toString(unionSet.getSet()) + " " + unionSet.size());
-		System.out.println(Arrays.toString(productSet.getSet()) + " " + productSet.size());
-		System.out.println(Arrays.toString(powerSet.getSet()) + " " + powerSet.size());
+		final CSet langASet = new CSet();
+		final CSet langBSet = new CSet();
+		int k = 0;
 
 		try {
 			FileReader readin;
-			if (args.length > 0)
+			if (args.length == 3) {
 				readin = new FileReader(args[1]);
-			else {
-				System.out.printf("Input language file: ");
+				k = Integer.valueOf(args[2]);
+			} else {
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				System.out.printf("Input language file: ");
 				readin = new FileReader(in.readLine());
+				System.out.printf("\nInput powerset: ");
+				k = Integer.valueOf(in.readLine());
+				System.out.println();
 			}
 
 			boolean swap = false;
 			String langPart = "";
 			while (readin.ready()) {
-				int c = readin.read();
-				if (c == ',' || c == ' ') {
+				char c = (char) readin.read();
+				if (c == ' ' || c == '{' || c == '\r' || c == '\n')
+					continue;
+				if (c == ',' || c == '}') {
 					if (swap)
 						langBSet.add(langPart);
 					else
 						langASet.add(langPart);
+					langPart = "";
+					if (c == '}')
+						swap = true;
 					continue;
 				}
-				if (c == '}') {
-					swap = true;
-					continue;
-				}
-
-				langPart = String.format("%s%s", c, readin.read());
+				langPart += String.valueOf(c);
 			}
+			readin.close();
 
 		} catch (FileNotFoundException e) {
 			System.err.println("File does not exist");
@@ -67,5 +55,9 @@ public class Main {
 			System.err.println("Error in system IO");
 			System.exit(1);
 		}
+
+		System.out.printf("\nA U B = %s", langASet.union(langBSet).toString());
+		System.out.printf("\nA x B = %s", langASet.product(langBSet).toString());
+		System.out.printf("\nA ^ %s = %s", k, langASet.power(k).toString());
 	}
 }
