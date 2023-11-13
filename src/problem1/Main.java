@@ -16,7 +16,7 @@ public class Main {
 
 		try {
 			FileReader readin;
-			if (args.length == 3) {
+			if (args.length == 3) { // Here for use in a CLI
 				readin = new FileReader(args[1]);
 				k = Integer.valueOf(args[2]);
 			} else {
@@ -28,13 +28,13 @@ public class Main {
 				System.out.println();
 			}
 
-			boolean swap = false;
+			boolean swap = false; // Since of 2 language sets, when the end of one is reached move to other
 			String langPart = "";
 			while (readin.ready()) {
 				char c = (char) readin.read();
-				if (c == ' ' || c == '{' || c == '\r' || c == '\n')
+				if (c == ' ' || c == '{' || c == '\r' || c == '\n') // If any whitespace, skip
 					continue;
-				if (c == ',' || c == '}') {
+				if (c == ',' || c == '}') { // End of a language part
 					if (swap)
 						langBSet.add(langPart);
 					else

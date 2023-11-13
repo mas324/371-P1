@@ -22,16 +22,16 @@ public class Main {
 			String readLine = "";
 			while (inputFileReader.ready()) {
 				char c = (char) inputFileReader.read();
-				if (c == '\n' || c == '\r')
+				if (c == '\n' || c == '\r') // Skip to next line
 					continue;
-				else if (c == '}') {
+				else if (c == '}') { // Check for end of set input and create set object
 					convert.addEntry(Integer.valueOf(String.valueOf(readLine.charAt(0))),
 							readSet(readLine.substring(2)));
 					readLine = "";
 					continue;
 				}
 				readLine += c;
-				if (readLine.contains("empty")) {
+				if (readLine.contains("empty")) { // If empty set create and map state
 					convert.addEntry(Integer.valueOf(String.valueOf(readLine.charAt(0))), new CSet());
 					readLine = "";
 				}
@@ -52,6 +52,7 @@ public class Main {
 	}
 
 	/**
+	 * Small converter for a String into a set
 	 * 
 	 * @param set
 	 * @return
