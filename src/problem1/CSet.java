@@ -16,18 +16,19 @@ public class CSet implements SetInterface {
 	}
 
 	/**
-	 * @throws Will not notify the user of a duplicate entry, nor will the entry
-	 *              appear
+	 * @implNote Will not notify the user of a duplicate entry, nor will the entry
+	 *           appear
 	 */
 	@Override
 	public void add(String lang) {
 		for (String s : getSet()) {
 			if (s == null)
 				continue;
-			else if (s.equals(lang))
+			else if (s.equals(lang)) // Prevent duplicates from being entered by definition of a set
 				return;
 		}
 
+		// Crude way of increasing the array
 		if (set.length == count) {
 			set = Arrays.copyOf(set, count + 1);
 		}
@@ -47,7 +48,7 @@ public class CSet implements SetInterface {
 			unionSet.add(a);
 
 		for (String b : setB.getSet())
-			unionSet.add(b);
+			unionSet.add(b); // Since add contains method to prevent duplicates, can just directly input
 
 		return unionSet;
 	}
@@ -106,7 +107,7 @@ public class CSet implements SetInterface {
 		return count == 0;
 	}
 
-	private String[] getSet() {
+	public String[] getSet() {
 		return set;
 	}
 
