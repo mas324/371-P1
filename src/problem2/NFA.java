@@ -35,7 +35,7 @@ public class NFA {
 			return outputSet;
 
 		for (String nextState : transition.getSet()) {
-			outputSet = outputSet.union(E(Integer.valueOf(nextState)));
+			outputSet = outputSet.union(E(Integer.valueOf(nextState.trim())));
 		}
 
 		return outputSet;

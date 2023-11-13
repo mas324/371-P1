@@ -16,25 +16,25 @@ public class Main {
 			FileReader inputFileReader;
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 			System.out.printf("Input text file: ");
-			// inputFileReader = new FileReader(bufferedReader.readLine());
-			inputFileReader = new FileReader("Pro-2_Example.txt");
+			inputFileReader = new FileReader(bufferedReader.readLine());
+			// inputFileReader = new FileReader("Pro-2_Example.txt");
 
 			String readLine = "";
 			while (inputFileReader.ready()) {
 				char c = (char) inputFileReader.read();
-				if (c == '\n' || c == '\r') {
-					if (readLine.contains("empty")) {
-						convert.addEntry(Integer.valueOf(String.valueOf(readLine.charAt(0))), new CSet());
-						readLine = "";
-					}
+				if (c == '\n' || c == '\r')
 					continue;
-				} else if (c == '}') {
+				else if (c == '}') {
 					convert.addEntry(Integer.valueOf(String.valueOf(readLine.charAt(0))),
 							readSet(readLine.substring(2)));
 					readLine = "";
 					continue;
 				}
 				readLine += c;
+				if (readLine.contains("empty")) {
+					convert.addEntry(Integer.valueOf(String.valueOf(readLine.charAt(0))), new CSet());
+					readLine = "";
+				}
 			}
 
 			inputFileReader.close();
