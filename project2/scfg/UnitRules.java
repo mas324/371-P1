@@ -1,7 +1,6 @@
 package scfg;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /*
  * 
@@ -9,14 +8,13 @@ import java.util.List;
 public class UnitRules {
 
 	private ArrayList<String> rules;
-	private boolean hasNull;
 
-	protected UnitRules() {
-		rules = new ArrayList<>(1);
+	public UnitRules() {
+		rules = new ArrayList<>();
 	}
 
-	protected UnitRules(String unit) {
-		rules = new ArrayList<>(1);
+	public UnitRules(String unit) {
+		rules = new ArrayList<>();
 		if (unit.contains("|"))
 			for (String s : unit.split("\\|"))
 				append(s);
@@ -44,19 +42,29 @@ public class UnitRules {
 
 	private void replace(String newRule, int index) {
 		rules.remove(index);
-		rules.add(index, newRule);
+		if (newRule.length() != 0)
+			rules.add(index, newRule);
 	}
 
 	public boolean hasNull() {
-		return rules.contains("0");
+		for (String string : rules) {
+			if (string.contains("0"))
+				return true;
+		}
+		return false;
 	}
 
-	private void removeNull() {
-		rules.remove("0");
+	public void removeNull() {
+		for (String old : getRules()) {
+			if (old.contains("0")) {
+				replace(old, old.replace("0", ""));
+			}
+		}
+		rules.trimToSize();
 	}
 
-	public List<String> getRules() {
-		return rules;
+	public ArrayList<String> getRules() {
+		return (ArrayList<String>) rules.clone();
 	}
 
 	@Override
